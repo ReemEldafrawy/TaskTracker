@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
+
+namespace TaskTracker
+{
+    public enum Status
+    {
+        ToDo,
+        InProgress,
+        Completed
+    }
+    public class TaskManager
+    {
+
+        public string Name { get; set; }
+        public Status status { get; set; }
+        private List<TaskManager> tasks = new List<TaskManager>();
+        public void AddTasks()
+        {
+            Console.WriteLine("Enter The Name Of Your Task:");
+            string name = Console.ReadLine();
+            if (!tasks.Any(t => t.Name == name))
+            {
+                tasks.Add(new TaskManager() { Name = name, status = Status.ToDo });
+                Console.WriteLine($"Your Task Is Added");
+            }
+            else
+            {
+                Console.WriteLine("Task is exist already");
+            }
+        }
+        public void ViewTasks()
+        {
+            if (tasks.Count == 0)
+            {
+                Console.WriteLine("No Tasks In List");
+            }
+            else
+            {
+                Console.WriteLine("List of Tasks:");
+                int count = 1;
+                foreach (var task in tasks)
+                {
+                    Console.WriteLine($"{count++} Task Is {task.Name} and your status is {task.status}");
+                }
+            }
+        }
+        public void MarKTasksCompleted()
+        {
+            Console.WriteLine("Enter the name of task:");
+            string name = Console.ReadLine();
+            TaskManager task = tasks.FirstOrDefault(b=>b.Name==name);
+            if (task != null)
+            {
+                if (task.status == Status.Completed)
+                {
+                    Console.WriteLine("Task is Completed Already");
+                }
+                else
+                {
+
+
+                    task.status = Status.Completed;
+                    Console.WriteLine($"{task.Name} is {task.status}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("name of your task is wrong");
+            }
+        }
+        public void RemoveTask()
+        {
+            Console.WriteLine("Enter the Name of your task to remove");
+            string name = Console.ReadLine() ;
+            TaskManager task = tasks.FirstOrDefault(b=>b.Name==name);
+          if(task!=null)
+            {
+            tasks.Remove(task);
+                Console.WriteLine("Task Is Removed");
+            }
+          else
+            {
+                Console.WriteLine("name of your task is wrong");
+            }
+        }
+        public void Exit()
+        {
+            Console.WriteLine("GoodBye");
+            Environment.Exit(0);
+        }
+
+    }
+}
