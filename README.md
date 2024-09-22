@@ -13,6 +13,3 @@ This project is a simple task manager that allows users to add, view, mark tasks
 
 
 
-
-    }
-}
